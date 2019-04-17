@@ -20,6 +20,11 @@ public class User {
     @ManyToMany
     private Set<Role> roles;
 
+
+
+
+
+
     public Long getId() {
         return id;
     }
