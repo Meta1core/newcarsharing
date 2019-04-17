@@ -43,7 +43,9 @@ public class UserControllerv1{
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ResponseEntity <User> login(@RequestBody String username, String password) {
-
+        if (user == null){
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+        }
                 return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
