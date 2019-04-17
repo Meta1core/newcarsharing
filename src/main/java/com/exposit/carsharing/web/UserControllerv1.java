@@ -38,20 +38,14 @@ public class UserControllerv1{
         }
         userService.save(user);
 
-        return new ResponseEntity<>(user,  HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout) {
-        if (error != null) {
-            model.addAttribute("error", "Username or password is incorrect.");
-        }
+    public ResponseEntity <User> login(@RequestBody String username, String password) {
 
-        if (logout != null) {
-            model.addAttribute("message", "Logged out successfully.");
-        }
 
-        return "login";
+                return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }
