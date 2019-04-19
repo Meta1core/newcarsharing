@@ -2,6 +2,7 @@ package com.exposit.carsharing.web;
 
 
 import com.exposit.carsharing.model.User;
+import com.exposit.carsharing.model.UserLoginPayload;
 import com.exposit.carsharing.service.UserService;
 import com.exposit.carsharing.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.jws.soap.SOAPBinding;
 import javax.validation.Valid;
 
 
@@ -29,6 +31,9 @@ public class UserControllerv1{
     private UserValidator userValidator;
 
 
+    private UserLoginPayload userLoginPayload;
+
+
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ResponseEntity <User>  registration(@RequestBody @Valid User user, BindingResult bindingResult) {
@@ -41,12 +46,12 @@ public class UserControllerv1{
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity <User> login(@RequestBody String username, String password) {
-        if (user == null){
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
-        }
-                return new ResponseEntity<>(user, HttpStatus.OK);
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity <UserLoginPayload> login(@RequestBody UserLoginPayload userLoginPayload) {
+        String username = userLoginPayload.getUsername();
+        String password = userLoginPayload.getPassword();
+
+                return new ResponseEntity<>( HttpStatus.OK);
     }
 
 }
