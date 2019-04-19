@@ -1,0 +1,21 @@
+*.class
+*.jar
+*.war
+*.ear
+target
+
+# gradle
+.gradle
+build/
+
+# IDEA
+java/out
+model/out
+*.iml
+*.iws
+*.ipr
+*.ids
+.idea
+
+# generated stuff
+local.properties
