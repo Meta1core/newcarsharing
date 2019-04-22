@@ -24,7 +24,7 @@ public class SpringSecurityConfigurer extends WebSecurityConfigurerAdapter{
 
     @Override
     public UserDetailsService userDetailsServiceBean() throws Exception {
-        return new SSUserDetailsService(userRepository);
+        return new CarsharingUser(userRepository);
     }
 
     @Override

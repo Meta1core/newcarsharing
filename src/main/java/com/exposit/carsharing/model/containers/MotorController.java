@@ -1,4 +1,4 @@
-package com.exposit.carsharing.model.conteiners;
+package com.exposit.carsharing.model.containers;
 
 import com.exposit.carsharing.model.Car;
 import lombok.Data;

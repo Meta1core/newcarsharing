@@ -1,9 +1,8 @@
 package com.exposit.carsharing.model;
 
 
-import com.exposit.carsharing.model.conteiners.*;
+import com.exposit.carsharing.model.containers.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.exposit.carsharing.*;
 import lombok.Data;
 
 import javax.persistence.*;

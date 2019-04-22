@@ -16,13 +16,13 @@ import java.util.Set;
 
 
 @Transactional
-public class SSUserDetailsService implements UserDetailsService {
+public class CarsharingUser implements UserDetailsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SSUserDetailsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CarsharingUser.class);
 
     private UserRepository userRepository;
 
-    public SSUserDetailsService(UserRepository userRepository){
+    public CarsharingUser(UserRepository userRepository){
         this.userRepository=userRepository;
     }
 

@@ -2,7 +2,7 @@ package com.exposit.carsharing.web;
 
 
 import com.exposit.carsharing.model.User;
-import com.exposit.carsharing.model.UserLoginPayload;
+import com.exposit.carsharing.model.payload.UserLoginPayload;
 import com.exposit.carsharing.service.UserService;
 import com.exposit.carsharing.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
