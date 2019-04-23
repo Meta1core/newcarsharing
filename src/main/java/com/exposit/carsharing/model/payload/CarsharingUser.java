@@ -37,6 +37,7 @@ public class CarsharingUser implements UserDetails {
     @Temporal(TemporalType.DATE)
     private Date passworddate;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
