@@ -5,6 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,6 +21,7 @@ public class CarsharingUser implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Email(message = "Email should be valid")
     @Column(name = "email")
     private String email;
 
@@ -37,10 +41,12 @@ public class CarsharingUser implements UserDetails {
     @Temporal(TemporalType.DATE)
     private Date passworddate;
 
-    @Column(name = "old")
-    private Integer old;
-
+    @Min(value = 18, message = "Age should not be less than 18")
+    @Max(value = 150, message = "Age should not be greater than 150")
+    @Column(name = "age")
+    private Integer age;
     @Column(name = "address")
+
     private String address;
 
 
