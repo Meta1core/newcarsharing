@@ -23,10 +23,6 @@ public class User {
     private Set<Role> roles;
 
 
-
-
-
-
     public Long getId() {
         return id;
     }

@@ -14,37 +14,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.validation.Valid;
-
 
 @Controller
-public class UserControllerv1{
+public class UserControllerv1 {
 
     @Autowired
     private UserService userService;
-
 
     @Autowired
     private UserValidator userValidator;
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ResponseEntity <User>  registration(@RequestBody @Valid User user, BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
+    public ResponseEntity<User> registration(@RequestBody User user, BindingResult bindingResult) {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        userValidator.validate(user, bindingResult);
         userService.save(user);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity <User> login(@RequestBody UserLoginPayload userLoginPayload) {
+    public ResponseEntity<User> login(@RequestBody UserLoginPayload userLoginPayload) {
         String username = userLoginPayload.getUsername();
         String password = userLoginPayload.getPassword();
 
-                return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

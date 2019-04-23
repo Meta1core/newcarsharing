@@ -1,4 +1,5 @@
 package com.exposit.carsharing.securityconfig;
+
 import com.exposit.carsharing.model.Role;
 import com.exposit.carsharing.model.User;
 import com.exposit.carsharing.repository.UserRepository;
@@ -7,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.transaction.Transactional;
@@ -16,14 +16,14 @@ import java.util.Set;
 
 
 @Transactional
-public class CarsharingUser implements UserDetailsService {
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CarsharingUser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsService.class);
 
     private UserRepository userRepository;
 
-    public CarsharingUser(UserRepository userRepository){
-        this.userRepository=userRepository;
+    public UserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -36,15 +36,14 @@ public class CarsharingUser implements UserDetailsService {
             }
             LOGGER.debug(" user from username " + user.toString());
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new UsernameNotFoundException("User not found");
         }
     }
 
-    private Set<GrantedAuthority> getAuthorities(User user){
+    private Set<GrantedAuthority> getAuthorities(User user) {
         Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        for(Role role : user.getRoles()) {
+        for (Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRole());
             authorities.add(grantedAuthority);
         }

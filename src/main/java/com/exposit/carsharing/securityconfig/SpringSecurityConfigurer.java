@@ -7,15 +7,15 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfigurer extends WebSecurityConfigurerAdapter{
+public class SpringSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
-    @Autowired private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -23,8 +23,8 @@ public class SpringSecurityConfigurer extends WebSecurityConfigurerAdapter{
     }
 
     @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        return new CarsharingUser(userRepository);
+    public org.springframework.security.core.userdetails.UserDetailsService userDetailsServiceBean() throws Exception {
+        return new UserDetailsService(userRepository);
     }
 
     @Override
@@ -39,9 +39,6 @@ public class SpringSecurityConfigurer extends WebSecurityConfigurerAdapter{
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
     }
-
-
-
 
 
 }

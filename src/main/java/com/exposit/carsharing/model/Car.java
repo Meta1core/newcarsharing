@@ -9,82 +9,82 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name ="car")
+@Table(name = "car")
 @Data
 @JsonIgnoreProperties
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="ID")
+    @Column(name = "ID")
     private Integer ID;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "Марка",referencedColumnName="Код", nullable = false)
+    @JoinColumn(name = "Марка", referencedColumnName = "Код", nullable = false)
     private Mark mark;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "Модель",referencedColumnName="Код", nullable = false)
+    @JoinColumn(name = "Модель", referencedColumnName = "Код", nullable = false)
     private Model model;
 
-    @Column(name ="Год_Выпуска")
+    @Column(name = "Год_Выпуска")
     private Integer year;
 
-    @Column(name ="Гос_Номер")
+    @Column(name = "Гос_Номер")
     private String carNumber;
 
-    @Column(name ="Пробег")
+    @Column(name = "Пробег")
     private Integer mileage;
 
-    @Column(name ="Колво_Мест")
+    @Column(name = "Колво_Мест")
     private Integer numberPlace;
 
-    @Column(name ="Местанахождение")
+    @Column(name = "Местанахождение")
     private String location;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "Тип_КоробкиП",referencedColumnName="Код", nullable = false)
+    @JoinColumn(name = "Тип_КоробкиП", referencedColumnName = "Код", nullable = false)
     private GearBox gearbox;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "Тип_Кузова",referencedColumnName="Код", nullable = false)
+    @JoinColumn(name = "Тип_Кузова", referencedColumnName = "Код", nullable = false)
     private CarCase carcase;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "Привод",referencedColumnName="Код", nullable = false)
+    @JoinColumn(name = "Привод", referencedColumnName = "Код", nullable = false)
     private MotorController motorController;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "ДВС",referencedColumnName="Код", nullable = false)
+    @JoinColumn(name = "ДВС", referencedColumnName = "Код", nullable = false)
     private Engine engine;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Вид_Топлива")
     private Fuel fuel;
 
-    @Column(name ="Расход")
+    @Column(name = "Расход")
     private Integer consumption;
 
-    @Column(name ="Состояние_Машины")
+    @Column(name = "Состояние_Машины")
     private String status;
 
-    @Column(name ="Доп_Аксессуары")
+    @Column(name = "Доп_Аксессуары")
     private String items;
 
-    @Column(name ="Страховка")
+    @Column(name = "Страховка")
     private String insurance;
 
-    @Column(name ="Цена")
+    @Column(name = "Цена")
     private Integer price;
 
-    @Column(name ="Текст")
+    @Column(name = "Текст")
     private String text;
 
-    @Column(name ="Календарь_доступности")
+    @Column(name = "Календарь_доступности")
     @Temporal(TemporalType.DATE)
     private Date calendar;
 
 
-    @Column(name ="giphy")
+    @Column(name = "giphy")
     private String giphy;
 }

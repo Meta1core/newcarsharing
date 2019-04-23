@@ -16,6 +16,7 @@ model/out
 *.ipr
 *.ids
 .idea
+.validator
 
 # generated stuff
 local.properties
