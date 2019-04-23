@@ -4,7 +4,6 @@ package com.exposit.carsharing.web;
 import com.exposit.carsharing.model.User;
 import com.exposit.carsharing.model.payload.UserLoginPayload;
 import com.exposit.carsharing.service.UserService;
-import com.exposit.carsharing.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +20,6 @@ public class UserControllerv1 {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserValidator userValidator;
 
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -30,7 +27,6 @@ public class UserControllerv1 {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        userValidator.validate(user, bindingResult);
         userService.save(user);
 
         return new ResponseEntity<>(HttpStatus.CREATED);

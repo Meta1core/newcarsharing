@@ -37,6 +37,12 @@ public class CarsharingUser implements UserDetails {
     @Temporal(TemporalType.DATE)
     private Date passworddate;
 
+    @Column(name = "old")
+    private Integer old;
+
+    @Column(name = "address")
+    private String address;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
