@@ -1,7 +1,7 @@
 package com.exposit.carsharing.security.config;
 
 import com.exposit.carsharing.repository.UserRepository;
-import com.exposit.carsharing.security.service.impl.CarsharingUserDetails;
+import com.exposit.carsharing.security.impl.CarsharingUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

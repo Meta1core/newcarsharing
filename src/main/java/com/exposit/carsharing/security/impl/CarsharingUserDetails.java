@@ -1,4 +1,4 @@
-package com.exposit.carsharing.security.service.impl;
+package com.exposit.carsharing.security.impl;
 
 import com.exposit.carsharing.model.entity.Role;
 import com.exposit.carsharing.model.entity.User;
