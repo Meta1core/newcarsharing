@@ -40,7 +40,6 @@ public class Car {
     @Column(name = "Местанахождение")
     private String location;
 
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "Тип_КоробкиП", referencedColumnName = "Код", nullable = false)
     private GearBox gearbox;
@@ -82,7 +81,6 @@ public class Car {
     @Column(name = "Календарь_доступности")
     @Temporal(TemporalType.DATE)
     private Date calendar;
-
 
     @Column(name = "giphy")
     private String giphy;
