@@ -1,10 +1,10 @@
-package com.exposit.carsharing.service;
+package com.exposit.carsharing.service.impl;
 
 import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.repository.UserRepository;
-import com.exposit.carsharing.model.User;
+import com.exposit.carsharing.model.entity.User;
+import com.exposit.carsharing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +31,5 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 }

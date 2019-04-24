@@ -1,6 +1,6 @@
-package com.exposit.carsharing.model.containers;
+package com.exposit.carsharing.model.entity.containers;
 
-import com.exposit.carsharing.model.Car;
+import com.exposit.carsharing.model.entity.Car;
 import lombok.Data;
 
 import javax.persistence.*;

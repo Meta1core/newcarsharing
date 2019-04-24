@@ -1,4 +1,4 @@
-package com.exposit.carsharing.model;
+package com.exposit.carsharing.model.entity;
 
 import javax.persistence.*;
 import java.util.Set;

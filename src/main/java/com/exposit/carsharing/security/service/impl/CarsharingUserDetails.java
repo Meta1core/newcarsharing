@@ -1,7 +1,7 @@
-package com.exposit.carsharing.securityconfig;
+package com.exposit.carsharing.security.service.impl;
 
-import com.exposit.carsharing.model.Role;
-import com.exposit.carsharing.model.User;
+import com.exposit.carsharing.model.entity.Role;
+import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +16,13 @@ import java.util.Set;
 
 
 @Transactional
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class CarsharingUserDetails implements org.springframework.security.core.userdetails.UserDetailsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CarsharingUserDetails.class);
 
     private UserRepository userRepository;
 
-    public UserDetailsService(UserRepository userRepository) {
+    public CarsharingUserDetails(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -42,7 +42,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     }
 
     private Set<GrantedAuthority> getAuthorities(User user) {
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
         for (Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRole());
             authorities.add(grantedAuthority);

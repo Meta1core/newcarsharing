@@ -1,6 +1,6 @@
 package com.exposit.carsharing.service;
 
-import com.exposit.carsharing.model.Car;
+import com.exposit.carsharing.model.entity.Car;
 
 import java.util.List;
 

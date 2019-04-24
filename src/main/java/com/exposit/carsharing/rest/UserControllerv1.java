@@ -1,7 +1,7 @@
-package com.exposit.carsharing.web;
+package com.exposit.carsharing.rest;
 
 
-import com.exposit.carsharing.model.User;
+import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.UserLoginPayload;
 import com.exposit.carsharing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
