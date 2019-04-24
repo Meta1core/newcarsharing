@@ -20,8 +20,6 @@ public class UserControllerv1 {
     @Autowired
     private UserService userService;
 
-
-
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ResponseEntity<User> registration(@RequestBody User user, BindingResult bindingResult) {
         if (user == null) {
