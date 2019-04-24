@@ -54,14 +54,15 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Car> deleteCar(@PathVariable("id") Integer id) {
+    @PostMapping("/{id}")
+    public ResponseEntity<Car> deleteCar(@PathVariable("id") Integer id)
+    {
         Car car = this.carservice.getById(id);
         if (car == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         this.carservice.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -70,6 +71,6 @@ public class CarController {
         if (cars.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return new ResponseEntity<>(cars, HttpStatus.OK);
+        return ResponseEntity.ok(cars);
     }
 }
