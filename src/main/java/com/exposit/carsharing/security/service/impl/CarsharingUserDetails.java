@@ -9,14 +9,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
+import org.springframework.security.core.userdetails.UserDetailsService;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Transactional
-public class CarsharingUserDetails implements org.springframework.security.core.userdetails.UserDetailsService {
+public class CarsharingUserDetails implements UserDetailsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CarsharingUserDetails.class);
 

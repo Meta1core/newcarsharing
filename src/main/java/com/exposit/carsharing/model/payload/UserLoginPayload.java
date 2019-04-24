@@ -1,9 +1,7 @@
 package com.exposit.carsharing.model.payload;
 
-        import lombok.Data;
-
-        import javax.persistence.*;
-        import javax.validation.constraints.Size;
+import lombok.Data;
+import javax.validation.constraints.Size;
 
 @Data
 public class UserLoginPayload {

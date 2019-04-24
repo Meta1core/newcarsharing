@@ -1,4 +1,4 @@
-package com.exposit.carsharing.model.entity.containers;
+package com.exposit.carsharing.model.entity;
 
 
 import com.exposit.carsharing.model.entity.Car;
