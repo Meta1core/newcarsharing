@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @Data
-public class CarsharingUser implements UserDetails {
+public class CarsharingUserPayload implements UserDetails {
 
     private String username;
 
