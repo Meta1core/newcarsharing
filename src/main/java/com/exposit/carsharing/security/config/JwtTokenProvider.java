@@ -30,7 +30,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
-
+  @Autowired
+  CarsharingUserDetails carsharingUserDetails;
   /**
    * THIS IS NOT A SECURE PRACTICE! For simplicity, we are storing a static key here. Ideally, in a
    * microservices environment, this key would be kept on a config-server.
@@ -61,25 +62,4 @@ public class JwtTokenProvider {
         .compact();
   }
 
-  public Authentication getAuthentication(String token) {
-    UserDetails userDetails = .loadUserByUsername(getUsername(token));
-    return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-  }
-
-  public String getUsername(String token) {
-    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-  }
-
-  public String resolveToken(HttpServletRequest req) {
-    String bearerToken = req.getHeader("Authorization");
-    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-      return bearerToken.substring(7);
-    }
-    return null;
-  }
-
-  public boolean validateToken(String token) {
-      Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-      return true;
-    }
 }
