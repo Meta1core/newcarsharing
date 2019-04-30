@@ -11,11 +11,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -39,17 +41,14 @@ public class JwtTokenProvider {
   @Value("${security.jwt.token.expire-length:3600000}")
   private long validityInMilliseconds = 3600000; // 1h
 
-  private UserRepository userRepository;
-  @Autowired
-  private MyUserDetails myUserDetails;
   @PostConstruct
   protected void init() {
     secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
   }
 
-  public String createToken(String username) {
-    User user = userRepository.findByUsername(username);
-    final Claims claims = Jwts.claims().setSubject(user.getId().toString());
+  public String createToken(String userId) {
+
+    final Claims claims = Jwts.claims().setSubject(userId);
 
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -63,7 +62,7 @@ public class JwtTokenProvider {
   }
 
   public Authentication getAuthentication(String token) {
-    UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
+    UserDetails userDetails = .loadUserByUsername(getUsername(token));
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
   }
 
@@ -83,5 +82,4 @@ public class JwtTokenProvider {
       Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
       return true;
     }
-
 }

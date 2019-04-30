@@ -5,6 +5,7 @@ import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ import java.util.Set;
 public class CarsharingUserDetails implements UserDetailsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CarsharingUserDetails.class);
-
+    @Autowired
     private UserRepository userRepository;
 
     public CarsharingUserDetails(UserRepository userRepository) {

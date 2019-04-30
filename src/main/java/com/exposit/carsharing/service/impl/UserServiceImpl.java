@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
                             user.getEmail(), user.getId());
                 }
             }
-                return jwtTokenProvider.createToken(username);
+                return jwtTokenProvider.createToken(user.getId().toString());
         }
         catch (AuthenticationException e) {
             throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
