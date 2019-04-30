@@ -1,7 +1,6 @@
 package com.exposit.carsharing.security.config;
 
 import com.exposit.carsharing.repository.UserRepository;
-import com.exposit.carsharing.security.impl.CarsharingUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -26,18 +24,12 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsServiceBean());
     }
 
-    @Override
-    public org.springframework.security.core.userdetails.UserDetailsService userDetailsServiceBean() throws Exception {
-        return new CarsharingUserDetails(userRepository);
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
