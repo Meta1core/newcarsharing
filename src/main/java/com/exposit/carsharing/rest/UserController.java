@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponses;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.UserLoginPayload;
 import com.exposit.carsharing.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @RestController
 public class UserController {
 
@@ -39,6 +40,9 @@ public class UserController {
             @ApiResponse(code = 422, message = "Username is already in use"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
     public String login(@RequestBody UserLoginPayload userLoginPayload) {
+        if (userLoginPayload == null) {
+           log.error(HttpStatus.BAD_REQUEST.toString());
+        }
         return userService.signin(userLoginPayload.getUsername(),userLoginPayload.getPassword());
     }
 

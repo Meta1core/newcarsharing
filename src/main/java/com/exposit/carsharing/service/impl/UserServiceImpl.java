@@ -37,12 +37,12 @@ public class UserServiceImpl implements UserService {
 
     public String signin(String username, String password) {
         try {
-           User dbpassword =  userRepository.findByUsername(username);
-            if (!bCryptPasswordEncoder.matches(password, dbpassword.getPassword())) {
+
+            if (!bCryptPasswordEncoder.matches(password, userRepository.findByUsername(username ).getPassword())) {
                 log.error("Incorrect password for user with email={0} and ID={1}",
-                        dbpassword.getEmail(), dbpassword.getId());
+                        userRepository.findByUsername(username).getEmail(), userRepository.findByUsername(username).getId());
             }
-            return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles());
+            return jwtTokenProvider.createToken(username);
         }   catch (AuthenticationException e) {
             throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
         }

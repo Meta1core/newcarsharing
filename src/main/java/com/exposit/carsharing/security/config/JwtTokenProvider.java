@@ -1,6 +1,8 @@
 package com.exposit.carsharing.security.config;
 
+import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.model.entity.Role;
+import com.exposit.carsharing.repository.UserRepository;
 import com.exposit.carsharing.security.impl.CarsharingUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -36,17 +38,16 @@ public class JwtTokenProvider {
   @Value("${security.jwt.token.expire-length:3600000}")
   private long validityInMilliseconds = 3600000; // 1h
 
-  private CarsharingUserDetails myUserDetails;
-
+  private UserRepository userRepository;
+  @Autowired
+  private MyUserDetails myUserDetails;
   @PostConstruct
   protected void init() {
     secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
   }
 
-  public String createToken(String username, List<Role> roles) {
-
-    Claims claims = Jwts.claims().setSubject(username);
-    claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getRole())).filter(Objects::nonNull).collect(Collectors.toList()));
+  public String createToken(String username) {
+    final Claims claims = Jwts.claims().setSubject(userRepository.findByUsername(username).getId().toString());
 
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);
