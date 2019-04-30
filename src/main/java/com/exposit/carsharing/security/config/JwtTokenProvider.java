@@ -2,6 +2,7 @@ package com.exposit.carsharing.security.config;
 
 import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.model.entity.Role;
+import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.repository.UserRepository;
 import com.exposit.carsharing.security.impl.CarsharingUserDetails;
 import io.jsonwebtoken.Claims;
@@ -47,7 +48,8 @@ public class JwtTokenProvider {
   }
 
   public String createToken(String username) {
-    final Claims claims = Jwts.claims().setSubject(userRepository.findByUsername(username).getId().toString());
+    User user = userRepository.findByUsername(username);
+    final Claims claims = Jwts.claims().setSubject(user.getId().toString());
 
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);

@@ -1,6 +1,7 @@
 package com.exposit.carsharing.rest;
 
 
+import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import com.exposit.carsharing.model.entity.User;
@@ -20,11 +21,11 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/registration")
-    public ResponseEntity<User> registration(@RequestBody User user) {
-        if (user == null) {
+    public ResponseEntity<User> registration(@RequestBody UserRegistrationPayload userRegistrationPayload) {
+        if (userRegistrationPayload == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        userService.save(user);
+        userService.save(userRegistrationPayload);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

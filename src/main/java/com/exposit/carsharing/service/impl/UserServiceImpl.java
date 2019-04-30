@@ -1,6 +1,8 @@
 package com.exposit.carsharing.service.impl;
 
 
+import com.exposit.carsharing.converter.ConverterUtil;
+import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.repository.UserRepository;
 import com.exposit.carsharing.model.entity.User;
@@ -29,10 +31,9 @@ public class UserServiceImpl implements UserService {
     private AuthenticationManager authenticationManager;
 
     @Override
-    public void save(User user) {
+    public void save(UserRegistrationPayload user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(roleRepository.findAll());
-        userRepository.save(user);
+        userRepository.save(ConverterUtil.convertToUser(user));
     }
 
     public String signin(String username, String password) {
