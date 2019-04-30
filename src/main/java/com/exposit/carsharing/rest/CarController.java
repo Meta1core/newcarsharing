@@ -22,8 +22,7 @@ public class CarController {
     @Autowired
     private CarService carservice;
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-
+    @GetMapping("/{id}")
     public ResponseEntity<Car> getCar(@PathVariable("id") Integer carId) {
         if (carId == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -35,7 +34,7 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping("")
     public ResponseEntity<Car> saveCar(@RequestBody @Valid Car car) {
         if (car == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -44,7 +43,7 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping("")
     public ResponseEntity<Car> updateCustomer(@RequestBody @Valid Car car) {
 
         if (car == null) {
@@ -54,7 +53,7 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Car> deleteCar(@PathVariable("id") Integer id)
     {
         Car car = this.carservice.getById(id);

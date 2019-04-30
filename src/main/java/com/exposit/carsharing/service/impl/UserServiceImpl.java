@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service.impl;
 
+import com.exposit.carsharing.model.entity.Role;
 import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.repository.UserRepository;
 import com.exposit.carsharing.model.entity.User;
@@ -19,12 +20,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
+
     @Override
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(new HashSet<>(roleRepository.findAll()));
         userRepository.save(user);
     }
+
 
     @Override
     public User findByUsername(String username) {
