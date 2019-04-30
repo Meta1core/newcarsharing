@@ -13,28 +13,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ResponseEntity<User> registration(@RequestBody User user, BindingResult bindingResult) {
+    @PostMapping("/registration")
+    public ResponseEntity<User> registration(@RequestBody User user) {
         if (user == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         userService.save(user);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
+    @PostMapping("/login")
+    @ApiResponses(value = {//
+            @ApiResponse(code = 400, message = "Something went wrong"), //
+            @ApiResponse(code = 403, message = "Access denied"), //
+            @ApiResponse(code = 422, message = "Username is already in use"), //
+            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+    public String login(@RequestBody UserLoginPayload userLoginPayload) {
+        return userService.signin(userLoginPayload.getUsername(),userLoginPayload.getPassword());
+    }
 
 }

@@ -3,6 +3,7 @@ package com.exposit.carsharing.model.entity;
 import com.exposit.carsharing.model.entity.User;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,7 @@ public class Role {
   private String role;
 
   @ManyToMany(mappedBy = "roles")
-  private Set<User> users;
+  private List<User> users;
 
   public Long getId() {
     return id;
@@ -33,11 +34,11 @@ public class Role {
     this.role = role;
   }
 
-  public Set<User> getUsers() {
+  public List<User> getUsers() {
     return users;
   }
 
-  public void setUsers(Set<User> users) {
+  public void setUsers(List<User> users) {
     this.users = users;
   }
 }
