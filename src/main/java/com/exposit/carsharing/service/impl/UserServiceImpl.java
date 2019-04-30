@@ -31,19 +31,19 @@ import sun.plugin2.message.ShowStatusMessage;
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
-    private PasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder PasswordEncoder;
     private JwtTokenProvider jwtTokenProvider;
     private AuthenticationManager authenticationManager;
 
     @Override
     public void save(UserRegistrationPayload user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(PasswordEncoder.encode(user.getPassword()));
         userRepository.save(ConverterUtil.convertToUser(user));
     }
 
     public String signin(String username, String password) {
         User user = userRepository.findByUsername(username);
-        if (user != null && bCryptPasswordEncoder.matches(password, user.getPassword())) {
+        if (user != null && PasswordEncoder.matches(password, user.getPassword())) {
             return jwtTokenProvider.createToken(user.getId().toString());
         } else {
             throw new CustomException("Password or username invalid", HttpStatus.UNPROCESSABLE_ENTITY);
