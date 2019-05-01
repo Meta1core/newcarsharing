@@ -1,5 +1,6 @@
 package com.exposit.carsharing.service;
 
+import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 

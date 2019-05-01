@@ -3,6 +3,10 @@ package com.exposit.carsharing.rest;
 
 import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.service.CarService;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,25 +17,29 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/cars")
-
 public class CarController {
 
     @Autowired
     private CarService carservice;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Car> getCar(@PathVariable("id") Integer carId) {
-        if (carId == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
+    public ResponseEntity<Car> getCustomer(@PathVariable("id") Integer customerId) {
+        if (customerId == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Car car = this.carservice.getById(carId);
-        if (car == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        Car customer = this.carservice.getById(customerId);
+
+        if (customer == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
+
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -64,7 +72,8 @@ public class CarController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+    @GetMapping("")
     public ResponseEntity<List<Car>> getAllCars() {
         List<Car> cars = this.carservice.getAll();
         if (cars.isEmpty()) {

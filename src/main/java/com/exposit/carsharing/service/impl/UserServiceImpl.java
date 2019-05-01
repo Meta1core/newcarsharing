@@ -2,6 +2,7 @@ package com.exposit.carsharing.service.impl;
 
 
 import com.exposit.carsharing.converter.ConverterUtil;
+import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 import com.exposit.carsharing.repository.RoleRepository;
@@ -30,10 +31,8 @@ import sun.plugin2.message.ShowStatusMessage;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
     private PasswordEncoder PasswordEncoder;
     private JwtTokenProvider jwtTokenProvider;
-    private AuthenticationManager authenticationManager;
 
     @Override
     public void save(UserRegistrationPayload user) {
@@ -49,7 +48,6 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("Password or username invalid", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
 
     @Override
     public User findByUsername(String username) {

@@ -1,6 +1,7 @@
 package com.exposit.carsharing.rest;
 
 
+import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
