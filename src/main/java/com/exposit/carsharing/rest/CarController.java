@@ -21,7 +21,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/cars")
+@RequestMapping(value = "/cars")
 public class CarController {
 
     @Autowired
@@ -42,7 +42,7 @@ public class CarController {
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Car> saveCar(@RequestBody @Valid Car car) {
         if (car == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -51,7 +51,7 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("")
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Car> updateCustomer(@RequestBody @Valid Car car) {
 
         if (car == null) {

@@ -36,8 +36,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserRegistrationPayload user) {
-        user.setPassword(PasswordEncoder.encode(user.getPassword()));
-        userRepository.save(ConverterUtil.convertToUser(user));
+        if (user.getPassword() == null || user.getPassword() == "" || user.getEmail() == null || user.getEmail() == ""|| user.getUsername() == null || user.getUsername() == "" ) {
+            throw new CustomException("Password or Email or Username not entered", HttpStatus.UNPROCESSABLE_ENTITY);
+        } else {
+            user.setPassword(PasswordEncoder.encode(user.getPassword()));
+            userRepository.save(ConverterUtil.convertToUser(user));
+    }
     }
 
     public String signin(String username, String password) {
