@@ -9,10 +9,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
+@Data
 @Entity
 @Table(name ="марка")
-@Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Mark {
 
@@ -27,4 +26,7 @@ public class Mark {
     @JsonBackReference
     @OneToMany(mappedBy="mark",targetEntity= Car.class, fetch=FetchType.LAZY)
     private Set<Car> marks = new HashSet<Car>();
+
+
+
 }

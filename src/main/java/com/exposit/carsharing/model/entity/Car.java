@@ -22,12 +22,10 @@ public class Car {
     @Column(name = "ID")
     private Integer ID;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "Марка", referencedColumnName = "Код", nullable = false)
     private Mark mark;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "Модель", referencedColumnName = "Код", nullable = false)
     private Model model;
@@ -52,27 +50,27 @@ public class Car {
     @Column(name = "Местанахождение")
     private String location;
 
-    @JsonManagedReference
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "Тип_КоробкиП", referencedColumnName = "Код", nullable = false)
     private GearBox gearbox;
 
-    @JsonManagedReference
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "Тип_Кузова", referencedColumnName = "Код", nullable = false)
     private CarCase carcase;
 
-    @JsonManagedReference
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "Привод", referencedColumnName = "Код", nullable = false)
     private MotorController motorController;
 
-    @JsonManagedReference
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "ДВС", referencedColumnName = "Код", nullable = false)
     private Engine engine;
 
-    @JsonManagedReference
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Вид_Топлива")
     private Fuel fuel;
