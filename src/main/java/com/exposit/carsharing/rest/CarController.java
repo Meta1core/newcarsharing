@@ -1,6 +1,7 @@
 package com.exposit.carsharing.rest;
 
 
+import com.exposit.carsharing.converter.CarDTO;
 import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.service.CarService;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -27,7 +28,7 @@ public class CarController {
     @Autowired
     private CarService carservice;
 
-   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
+   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<Car> getCustomer(@PathVariable("id") Integer customerId) {
         if (customerId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -43,7 +44,7 @@ public class CarController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Car> saveCar(@RequestBody @Valid Car car) {
+    public ResponseEntity<CarDTO> saveCar(@RequestBody @Valid CarDTO car) {
         if (car == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -52,12 +53,12 @@ public class CarController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Car> updateCustomer(@RequestBody @Valid Car car) {
+    public ResponseEntity<Car> updateCustomer(@RequestBody @Valid CarDTO car) {
 
         if (car == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        this.carservice.save(car);
+        this.carservice.update(car);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

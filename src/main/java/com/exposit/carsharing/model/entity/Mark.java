@@ -27,6 +27,12 @@ public class Mark {
     @OneToMany(mappedBy="mark",targetEntity= Car.class, fetch=FetchType.LAZY)
     private Set<Car> marks = new HashSet<Car>();
 
+    public Mark() {}
 
+    public Mark(Integer ID_MARK, String mark, Set marks) {
+        this.ID_Mark= ID_MARK;
+        this.mark = mark;
+        this.marks = marks;
+    }
 
 }

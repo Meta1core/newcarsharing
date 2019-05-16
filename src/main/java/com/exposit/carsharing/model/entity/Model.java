@@ -3,15 +3,18 @@ package com.exposit.carsharing.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "модель")
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +30,14 @@ public class Model {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "Марка", referencedColumnName = "Код", nullable = false)
-    private Mark mark;
+    private Mark markbackend;
 
+    public Model() {}
+
+    public Model(Integer ID_Model, String model, Set models, Mark mark) {
+        this.ID_Model = ID_Model;
+        this.Model = model;
+        this.models = models;
+        this.markbackend = mark;
+    }
 }

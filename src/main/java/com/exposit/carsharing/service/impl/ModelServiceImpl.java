@@ -1,5 +1,7 @@
 package com.exposit.carsharing.service.impl;
 
+import com.exposit.carsharing.converter.ModelDTO;
+import com.exposit.carsharing.converter.ModelEditDTO;
 import com.exposit.carsharing.model.entity.Mark;
 import com.exposit.carsharing.model.entity.Model;
 import com.exposit.carsharing.repository.MarkRepository;
@@ -17,30 +19,44 @@ import java.util.List;
 public class ModelServiceImpl implements ModelService {
 
     @Autowired
-    ModelRepository markRepository;
+    ModelRepository modelRepository;
+    @Autowired
+    MarkRepository markRepository;
 
     @Override
     public Model getById(Integer id) {
         log.info("IN ModelServiceImpl getById {}", id);
-        return markRepository.getOne(id);
+        return modelRepository.getOne(id);
     }
 
     @Override
-    public void save(Model mark) {
-        log.info("IN ModelServiceImpl  save {}", mark);
-        markRepository.save(mark);
+    public void save(ModelDTO modeldto) {
+        log.info("IN ModelServiceImpl  save {}", modeldto);
+        Model b = new Model();
+        b.setModel(modeldto.getModel());
+        b.setMarkbackend(markRepository.getOne(modeldto.getMarkID()));
+        modelRepository.save(b);
+    }
 
+    @Override
+    public void update(ModelEditDTO modeleditdto) {
+        log.info("IN ModelServiceImpl  update {}", modeleditdto);
+        Model b = new Model();
+        b.setID_Model(modeleditdto.getId_Model());
+        b.setModel(modeleditdto.getModel());
+        b.setMarkbackend(markRepository.getOne(modeleditdto.getMarkID()));
+        modelRepository.save(b);
     }
 
     @Override
     public void delete(Integer id) {
         log.info("IN ModelServiceImpl  delete {}", id);
-        markRepository.deleteById(id);
+        modelRepository.deleteById(id);
     }
 
     @Override
     public List<Model> getAll() {
         log.info("IN ModelServiceImpl  getAll");
-        return markRepository.findAll();
+        return modelRepository.findAll();
     }
 }

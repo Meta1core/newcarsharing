@@ -1,6 +1,8 @@
 package com.exposit.carsharing.rest;
 
 
+import com.exposit.carsharing.converter.ModelDTO;
+import com.exposit.carsharing.converter.ModelEditDTO;
 import com.exposit.carsharing.model.entity.Mark;
 import com.exposit.carsharing.model.entity.Model;
 import com.exposit.carsharing.repository.MarkRepository;
@@ -25,8 +27,8 @@ public class ModelController {
     @Autowired
     private ModelService modelService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Model> saveMark(@RequestBody @Valid Model model) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ModelDTO> saveMark(@RequestBody @Valid ModelDTO model) {
         if (model == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -34,13 +36,12 @@ public class ModelController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Model> updateCustomer(@RequestBody @Valid Model model) {
-
+    @PutMapping()
+    public ResponseEntity<ModelEditDTO> updateCustomer(@RequestBody @Valid ModelEditDTO model) {
         if (model == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        this.modelService.save(model);
+        this.modelService.update(model);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
