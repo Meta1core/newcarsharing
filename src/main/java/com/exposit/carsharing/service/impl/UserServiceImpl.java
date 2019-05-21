@@ -3,29 +3,20 @@ package com.exposit.carsharing.service.impl;
 
 import com.exposit.carsharing.converter.ConverterUtil;
 import com.exposit.carsharing.converter.UserEditDTO;
-import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
-import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.repository.UserRepository;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.security.config.CustomException;
 import com.exposit.carsharing.security.config.JwtTokenProvider;
 
 import com.exposit.carsharing.service.UserService;
-import com.sun.webkit.ContextMenu;
 import lombok.AllArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.AuthenticationException;
-import sun.plugin2.message.ShowDocumentMessage;
-import sun.plugin2.message.ShowStatusMessage;
 
 import java.util.List;
 
