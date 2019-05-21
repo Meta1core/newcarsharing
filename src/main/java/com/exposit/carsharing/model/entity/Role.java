@@ -11,13 +11,15 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 public class Role {
+  private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String role;
+  @Column(name="role_name")
+  private String roleName;
 
-  @ManyToMany(mappedBy = "roles")
-  private List<User> users;
+  @Column(name="description")
+  private String description;
 
 }

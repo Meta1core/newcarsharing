@@ -1,5 +1,6 @@
 package com.exposit.carsharing.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -11,12 +12,12 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "user")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Convert(converter = UuidConverter.class)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -26,8 +27,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @ManyToMany
-    private List<Role> roles;
-
-
+    @Column(name = "avatar")
+    private String avatar;
 }

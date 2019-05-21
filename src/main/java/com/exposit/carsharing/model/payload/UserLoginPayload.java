@@ -10,7 +10,7 @@ public class UserLoginPayload {
             = "Username must be between 4 and 14 characters")
     private String username;
 
-    @Size(min = 5, max = 15, message
+    @Size(min = 4, max = 15, message
             = "Password must be between 5 and 15 characters")
     private String password;
 }

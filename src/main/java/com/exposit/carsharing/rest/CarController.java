@@ -39,7 +39,6 @@ public class CarController {
         if (customer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
