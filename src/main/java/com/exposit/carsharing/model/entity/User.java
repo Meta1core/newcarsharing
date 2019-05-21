@@ -27,6 +27,9 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<Role> roles;
+
     @Column(name = "avatar")
     private String avatar;
 }
