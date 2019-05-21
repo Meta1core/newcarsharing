@@ -20,6 +20,9 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
+  @Autowired
+  private CarsharingUserDetails carsharingUserDetails;
+
   @Value("${security.jwt.token.secret-key:secret-key}")
   private String secretKey;
 
@@ -48,9 +51,13 @@ public class JwtTokenProvider {
   }
 
   public Authentication getAuthentication(String token) {
-    UserDetails userDetails = myUserDetails.loadUserByUsername(getUsername(token));
+    UserDetails userDetails = carsharingUserDetails.loadUserByUsername(getUsername(token));
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
   }
+
+    public String getUsername(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
 
   public String resolveToken(HttpServletRequest req) {
     String bearerToken = req.getHeader("Authorization");
