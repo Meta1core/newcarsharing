@@ -1,15 +1,14 @@
 package com.exposit.carsharing.service.impl;
 
-import com.exposit.carsharing.converter.CarDTO;
+import com.exposit.carsharing.model.payload.CarDTO;
 import com.exposit.carsharing.model.entity.Car;
-import com.exposit.carsharing.model.entity.Model;
-import com.exposit.carsharing.model.entity.MotorController;
 import com.exposit.carsharing.repository.*;
 import com.exposit.carsharing.service.CarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Slf4j

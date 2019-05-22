@@ -4,7 +4,6 @@ package com.exposit.carsharing.rest;
 import com.exposit.carsharing.model.entity.CarCase;
 import com.exposit.carsharing.model.entity.Fuel;
 import com.exposit.carsharing.service.CarCaseService;
-import com.exposit.carsharing.service.FuelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +22,7 @@ public class CarCaseController {
     private CarCaseService carCaseService;
 
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarCase> saveMark(@RequestBody @Valid CarCase carCase) {
         if (carCase == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -43,8 +42,7 @@ public class CarCaseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Fuel> deleteCar(@PathVariable("id") Integer id)
-    {
+    public ResponseEntity<Fuel> deleteCar(@PathVariable("id") Integer id) {
         CarCase carCase = this.carCaseService.getById(id);
         if (carCase == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

@@ -1,14 +1,14 @@
 package com.exposit.carsharing.rest;
 
 
-import com.exposit.carsharing.converter.UserEditDTO;
+import com.exposit.carsharing.model.payload.UserEditDTO;
+import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
+import com.exposit.carsharing.model.payload.UserLoginPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
+import com.exposit.carsharing.service.UserService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import com.exposit.carsharing.model.entity.User;
-import com.exposit.carsharing.model.payload.UserLoginPayload;
-import com.exposit.carsharing.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,14 +44,14 @@ public class UserController {
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 422, message = "Username is already in use"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public AccessTokenPayload login(@RequestBody UserLoginPayload userLoginPayload) {
+    public AccessTokenPayload login(@RequestBody @Valid UserLoginPayload userLoginPayload) {
         if (userLoginPayload == null) {
-           log.error(HttpStatus.BAD_REQUEST.toString());
+            log.error(HttpStatus.BAD_REQUEST.toString());
         }
-        return userService.signin(userLoginPayload.getUsername(),userLoginPayload.getPassword());
+        return userService.signin(userLoginPayload.getUsername(), userLoginPayload.getPassword());
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") UUID userid) {
         if (userid == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -65,9 +65,9 @@ public class UserController {
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") UUID id)
-    {
+    public ResponseEntity<User> deleteUser(@PathVariable("id") UUID id) {
         User user = this.userService.getUserByUUID(id);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

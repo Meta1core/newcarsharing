@@ -1,12 +1,10 @@
 package com.exposit.carsharing.service.impl;
 
-import com.exposit.carsharing.converter.ModelDTO;
-import com.exposit.carsharing.converter.ModelEditDTO;
-import com.exposit.carsharing.model.entity.Mark;
+import com.exposit.carsharing.model.payload.ModelDTO;
+import com.exposit.carsharing.model.payload.ModelEditDTO;
 import com.exposit.carsharing.model.entity.Model;
 import com.exposit.carsharing.repository.MarkRepository;
 import com.exposit.carsharing.repository.ModelRepository;
-import com.exposit.carsharing.service.MarkService;
 import com.exposit.carsharing.service.ModelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

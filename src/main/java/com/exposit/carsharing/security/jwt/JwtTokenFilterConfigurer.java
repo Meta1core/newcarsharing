@@ -1,8 +1,6 @@
 package com.exposit.carsharing.security.jwt;
 
 
-import com.exposit.carsharing.security.jwt.JwtTokenFilter;
-import com.exposit.carsharing.security.jwt.JwtTokenProvider;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;

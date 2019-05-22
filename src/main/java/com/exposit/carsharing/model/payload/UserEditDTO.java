@@ -1,4 +1,4 @@
-package com.exposit.carsharing.converter;
+package com.exposit.carsharing.model.payload;
 
 import lombok.Data;
 

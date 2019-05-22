@@ -2,26 +2,24 @@ package com.exposit.carsharing.service.impl;
 
 
 import com.exposit.carsharing.converter.ConverterUtil;
-import com.exposit.carsharing.converter.UserEditDTO;
+import com.exposit.carsharing.model.payload.UserEditDTO;
 import com.exposit.carsharing.model.entity.Role;
 import com.exposit.carsharing.model.entity.RoleName;
+import com.exposit.carsharing.model.entity.User;
+import com.exposit.carsharing.model.exception.CarsharingException;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.repository.UserRepository;
-import com.exposit.carsharing.model.entity.User;
-import com.exposit.carsharing.model.exception.CarsharingException;
 import com.exposit.carsharing.security.jwt.JwtTokenProvider;
-
 import com.exposit.carsharing.service.UserService;
 import lombok.AllArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,6 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private PasswordEncoder PasswordEncoder;
@@ -45,7 +44,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-        @Override
+    @Override
     public void save(User user) {
         log.info("IN UserServiceImpl  save {}", user.getUsername());
         userRepository.save(user);
@@ -87,7 +86,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUUID(UUID id) {
         log.info("IN UserServiceImpl getById {}", id);
-        return userRepository.getOne(id);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override

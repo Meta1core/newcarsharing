@@ -1,8 +1,6 @@
 package com.exposit.carsharing.rest;
 
 
-import com.exposit.carsharing.model.entity.Model;
-import com.exposit.carsharing.service.ModelService;
 import com.exposit.carsharing.service.MotorControllerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

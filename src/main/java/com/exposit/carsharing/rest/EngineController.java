@@ -2,10 +2,7 @@ package com.exposit.carsharing.rest;
 
 
 import com.exposit.carsharing.model.entity.Engine;
-import com.exposit.carsharing.model.entity.Mark;
-import com.exposit.carsharing.repository.MarkRepository;
 import com.exposit.carsharing.service.EngineService;
-import com.exposit.carsharing.service.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +21,7 @@ public class EngineController {
     private EngineService engineService;
 
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Engine> saveMark(@RequestBody @Valid Engine engine) {
         if (engine == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -44,8 +41,7 @@ public class EngineController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Engine> deleteCar(@PathVariable("id") Integer id)
-    {
+    public ResponseEntity<Engine> deleteCar(@PathVariable("id") Integer id) {
         Engine engine = this.engineService.getById(id);
         if (engine == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

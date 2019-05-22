@@ -1,10 +1,8 @@
 package com.exposit.carsharing.rest;
 
 
-import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.model.entity.Mark;
 import com.exposit.carsharing.repository.MarkRepository;
-import com.exposit.carsharing.service.CarService;
 import com.exposit.carsharing.service.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,7 @@ public class MarkController {
     @Autowired
     private MarkRepository markRepository;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Mark> saveMark(@RequestBody @Valid Mark mark) {
         if (mark == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -46,8 +44,7 @@ public class MarkController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Mark> deleteCar(@PathVariable("id") Integer id)
-    {
+    public ResponseEntity<Mark> deleteCar(@PathVariable("id") Integer id) {
         Mark mark = this.markService.getById(id);
         if (mark == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

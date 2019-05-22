@@ -2,8 +2,6 @@ package com.exposit.carsharing.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -32,7 +30,8 @@ public class Model {
     @JoinColumn(name = "Марка", referencedColumnName = "Код", nullable = false)
     private Mark markbackend;
 
-    public Model() {}
+    public Model() {
+    }
 
     public Model(Integer ID_Model, String model, Set models, Mark mark) {
         this.ID_Model = ID_Model;

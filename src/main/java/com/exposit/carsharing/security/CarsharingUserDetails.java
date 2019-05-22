@@ -1,10 +1,5 @@
 package com.exposit.carsharing.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +7,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -36,20 +37,6 @@ public class CarsharingUserDetails implements UserDetails {
                     .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         } else {
             authorities = new ArrayList<>();
-        }
-    }
-
-    public static class CarsharingUserDetailsBuilder {
-
-        public CarsharingUserDetails.CarsharingUserDetailsBuilder roles(final Collection<String> roles) {
-            this.roles = roles;
-            if (!CollectionUtils.isEmpty(roles)) {
-                this.authorities = roles.stream()
-                        .map(x -> "ROLE_" + x)
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
-            }
-            return this;
         }
     }
 
@@ -86,5 +73,19 @@ public class CarsharingUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public static class CarsharingUserDetailsBuilder {
+
+        public CarsharingUserDetails.CarsharingUserDetailsBuilder roles(final Collection<String> roles) {
+            this.roles = roles;
+            if (!CollectionUtils.isEmpty(roles)) {
+                this.authorities = roles.stream()
+                        .map(x -> "ROLE_" + x)
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+            }
+            return this;
+        }
     }
 }

@@ -1,16 +1,14 @@
 package com.exposit.carsharing.model.entity;
 
-import com.exposit.carsharing.model.entity.Car;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name ="тип_двигателя")
+@Table(name = "тип_двигателя")
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Engine {
@@ -22,7 +20,7 @@ public class Engine {
     private String engine;
 
     @JsonBackReference
-    @OneToMany(mappedBy="engine",targetEntity= Car.class, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "engine", targetEntity = Car.class, fetch = FetchType.EAGER)
     private Collection engines;
 
 }
