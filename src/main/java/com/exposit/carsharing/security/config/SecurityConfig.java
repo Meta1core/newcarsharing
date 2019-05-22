@@ -1,6 +1,7 @@
 package com.exposit.carsharing.security.config;
 
 import com.exposit.carsharing.security.jwt.JwtTokenProvider;
+import com.exposit.carsharing.security.jwt.JwtTokenFilterConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Entry points
         http.authorizeRequests()
                 .antMatchers("/user/login").permitAll()
-                .antMatchers("/user/registration").permitAll();
+                .antMatchers("/user/registration").permitAll()
+          .anyRequest().authenticated();
+        http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+
     }
 
     @Bean

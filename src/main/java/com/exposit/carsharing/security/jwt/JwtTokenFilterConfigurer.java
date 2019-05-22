@@ -1,4 +1,4 @@
-package com.exposit.carsharing.service;
+package com.exposit.carsharing.security.jwt;
 
 
 import com.exposit.carsharing.security.jwt.JwtTokenFilter;

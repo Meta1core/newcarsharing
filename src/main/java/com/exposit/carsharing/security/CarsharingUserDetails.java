@@ -1,5 +1,6 @@
-package com.exposit.carsharing.security.config;
+package com.exposit.carsharing.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -21,11 +22,36 @@ public class CarsharingUserDetails implements UserDetails {
 
     private final String email;
 
-    private final String username;
-
     private final Collection<String> roles;
 
     private final Collection<GrantedAuthority> authorities;
+
+    public CarsharingUserDetails(final UUID id, final String email, final List<String> roles) {
+        this.id = id;
+        this.email = email;
+        this.roles = roles;
+
+        if (roles != null) {
+            authorities = roles.stream().map(x -> "ROLE_" + x)
+                    .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        } else {
+            authorities = new ArrayList<>();
+        }
+    }
+
+    public static class CarsharingUserDetailsBuilder {
+
+        public CarsharingUserDetails.CarsharingUserDetailsBuilder roles(final Collection<String> roles) {
+            this.roles = roles;
+            if (!CollectionUtils.isEmpty(roles)) {
+                this.authorities = roles.stream()
+                        .map(x -> "ROLE_" + x)
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+            }
+            return this;
+        }
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -39,7 +65,7 @@ public class CarsharingUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
