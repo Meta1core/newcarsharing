@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    void save(UserRegistrationPayload user);
+    void save(User user);
+    void signup(UserRegistrationPayload user);
     AccessTokenPayload signin(String username, String password);
     User search(String username);
     User getUserByUUID(UUID id);

@@ -1,5 +1,6 @@
 package com.exposit.carsharing.model.payload;
 
+import com.exposit.carsharing.model.entity.RoleName;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -19,5 +20,5 @@ public class UserRegistrationPayload {
             = "Password must be between 5 and 15 characters")
     private String password;
 
-    private List<String> roles;
+    private List<RoleName> roles;
 }

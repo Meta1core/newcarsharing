@@ -33,7 +33,7 @@ public class UserController {
         if (userRegistrationPayload == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        userService.save(userRegistrationPayload);
+        userService.signup(userRegistrationPayload);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

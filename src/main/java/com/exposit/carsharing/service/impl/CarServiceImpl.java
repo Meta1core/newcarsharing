@@ -8,6 +8,7 @@ import com.exposit.carsharing.repository.*;
 import com.exposit.carsharing.service.CarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -98,6 +99,7 @@ public class CarServiceImpl implements CarService {
         carrepository.deleteById(id);
     }
 
+    @Secured("ROLE_ADMIN")
     @Override
     public List<Car> getAll() {
         log.info("IN CarServiceImpl  getAll");

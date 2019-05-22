@@ -3,8 +3,11 @@ package com.exposit.carsharing.service.impl;
 
 import com.exposit.carsharing.converter.ConverterUtil;
 import com.exposit.carsharing.converter.UserEditDTO;
+import com.exposit.carsharing.model.entity.Role;
+import com.exposit.carsharing.model.entity.RoleName;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
+import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.repository.UserRepository;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.exception.CarsharingException;
@@ -18,8 +21,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -28,29 +33,36 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private PasswordEncoder PasswordEncoder;
     private JwtTokenProvider jwtTokenProvider;
+    private RoleRepository roleRepository;
 
     @Override
-    public void save(UserRegistrationPayload user) {
-        if (user.getPassword() == null || user.getPassword() == "" || user.getEmail() == null || user.getEmail() == ""|| user.getUsername() == null || user.getUsername() == "" ) {
+    public void signup(UserRegistrationPayload payload) {
+        if (payload.getPassword() == null || payload.getPassword() == "" || payload.getEmail() == null || payload.getEmail() == "" || payload.getUsername() == null || payload.getUsername() == "") {
             throw new CarsharingException("Password or Email or Username not entered", HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
-            log.info("IN UserServiceImpl  Registration {}", user.getUsername());
-            user.setPassword(PasswordEncoder.encode(user.getPassword()));
-            userRepository.save(ConverterUtil.convertToUser(user));
+            log.info("IN UserServiceImpl  Registration {}", payload.getUsername());
+            payload.setPassword(PasswordEncoder.encode(payload.getPassword()));
+            save(ConverterUtil.convertToUser(payload, PasswordEncoder.encode(payload.getPassword()), payload.getRoles() != null ? getPersistedRoles(payload.getRoles()) : null));
+        }
     }
+
+        @Override
+    public void save(User user) {
+        log.info("IN UserServiceImpl  save {}", user.getUsername());
+        userRepository.save(user);
     }
 
     @Override
     public void update(UserEditDTO user) {
-            User b = new User();
-            b.setId(user.getId());
-            b.setUsername(user.getUsername());
-            b.setEmail(user.getEmail());
+        User b = new User();
+        b.setId(user.getId());
+        b.setUsername(user.getUsername());
+        b.setEmail(user.getEmail());
         b.setAvatar(user.getAvatar());
         b.setPassword(user.getPassword());
-            userRepository.save(b);
+        userRepository.save(b);
         log.info("IN UserServiceImpl  update {}", user.getId());
-        }
+    }
 
     public AccessTokenPayload signin(String username, String password) {
         User user = userRepository.findByUsername(username);
@@ -89,6 +101,20 @@ public class UserServiceImpl implements UserService {
     public List<User> getAll() {
         log.info("IN UserServiceImpl  getAll");
         return userRepository.findAll();
+    }
+
+    private List<Role> getPersistedRoles(final List<RoleName> roles) {
+        return roles
+                .stream()
+                .map(roleName -> roleRepository.findByName(roleName)
+                        .stream()
+                        .findFirst()
+                        .orElseGet(() -> {
+                            final Role role = Role.builder().name(roleName).build();
+                            roleRepository.save(role);
+                            return role;
+                        }))
+                .collect(Collectors.toList());
     }
 
 

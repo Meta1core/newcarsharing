@@ -72,7 +72,7 @@ public class JwtTokenProvider {
                 .email(user.getEmail())
                 .roles(user.getRoles() != null ? user.getRoles()
                         .stream()
-                        .map(role -> role.getRole().name())
+                        .map(role -> role.getName().name())
                         .collect(Collectors.toList()) : null)
                 .build();
 
