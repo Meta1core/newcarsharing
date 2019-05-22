@@ -1,7 +1,23 @@
 package com.exposit.carsharing.model.entity;
 
-import org.springframework.security.core.GrantedAuthority;
+import lombok.*;
 
-public enum Role {
-  ADMIN, USER
+import javax.persistence.*;
+
+@Data
+@Entity
+@Table(name = "roles")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Role {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Enumerated(EnumType.STRING)
+  private Role role;
 }

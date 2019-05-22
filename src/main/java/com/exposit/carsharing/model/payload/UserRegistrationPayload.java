@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -17,4 +18,5 @@ public class UserRegistrationPayload {
             = "Password must be between 5 and 15 characters")
     private String password;
 
+    private List<String> roles;
 }
