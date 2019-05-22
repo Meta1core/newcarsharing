@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
             throw new CarsharingException("Password or Email or Username not entered", HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
             log.info("IN UserServiceImpl  Registration {}", payload.getUsername());
-            payload.setPassword(PasswordEncoder.encode(payload.getPassword()));
             save(ConverterUtil.convertToUser(payload, PasswordEncoder.encode(payload.getPassword()), payload.getRoles() != null ? getPersistedRoles(payload.getRoles()) : null));
         }
     }
