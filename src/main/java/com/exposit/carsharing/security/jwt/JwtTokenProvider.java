@@ -2,7 +2,7 @@ package com.exposit.carsharing.security.jwt;
 
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.exception.CarsharingException;
-import com.exposit.carsharing.security.security.CarsharingUserDetails;
+import com.exposit.carsharing.security.config.CarsharingUserDetails;
 import com.exposit.carsharing.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

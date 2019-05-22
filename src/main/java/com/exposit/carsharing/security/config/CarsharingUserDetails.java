@@ -1,4 +1,4 @@
-package com.exposit.carsharing.security.security;
+package com.exposit.carsharing.security.config;
 
 import java.util.Collection;
 import java.util.List;
