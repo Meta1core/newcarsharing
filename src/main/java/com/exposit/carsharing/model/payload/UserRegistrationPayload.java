@@ -10,8 +10,6 @@ import java.util.UUID;
 @Data
 public class UserRegistrationPayload {
 
-    private String username;
-
     @Email(message = "Email should be valid")
     private String email;
 
