@@ -17,5 +17,4 @@ public class UserRegistrationPayload {
             = "Password must be between 5 and 15 characters")
     private String password;
 
-
 }
