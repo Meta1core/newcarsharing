@@ -1,5 +1,8 @@
 package com.exposit.carsharing.security.jwt;
 
+import com.exposit.carsharing.model.entity.Role;
+import com.exposit.carsharing.model.entity.RoleName;
+import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.exception.CarsharingException;
 import com.exposit.carsharing.security.CarsharingUserDetails;
@@ -23,6 +26,8 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static org.reflections.util.ConfigurationBuilder.build;
 
 @Slf4j
 @Component
@@ -67,7 +72,7 @@ public class JwtTokenProvider {
                 .email(user.getEmail())
                 .roles(user.getRoles() != null ? user.getRoles()
                         .stream()
-                        .map(Enum::name)
+                        .map(role -> role.getRole().name())
                         .collect(Collectors.toList()) : null)
                 .build();
 

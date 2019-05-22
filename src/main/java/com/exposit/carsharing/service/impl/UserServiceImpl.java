@@ -31,10 +31,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserRegistrationPayload user) {
-        if (user.getPassword() == null || user.getPassword() == "" || user.getEmail() == null || user.getEmail() == "" ) {
+        if (user.getPassword() == null || user.getPassword() == "" || user.getEmail() == null || user.getEmail() == ""|| user.getUsername() == null || user.getUsername() == "" ) {
             throw new CarsharingException("Password or Email or Username not entered", HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
-            log.info("IN UserServiceImpl  Registration {}", user.getEmail());
+            log.info("IN UserServiceImpl  Registration {}", user.getUsername());
             user.setPassword(PasswordEncoder.encode(user.getPassword()));
             userRepository.save(ConverterUtil.convertToUser(user));
     }
