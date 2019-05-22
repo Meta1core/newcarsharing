@@ -7,13 +7,14 @@ import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
     void save(UserRegistrationPayload user);
     AccessTokenPayload signin(String username, String password);
-    User findByUsername(String username);
-    User getUser(Long id);
+    User search(String username);
+    User getUserByUUID(UUID id);
     void update(UserEditDTO user);
-    void deleteUser(Long id);
+    void deleteUser(UUID id);
     List<User> getAll();
 }

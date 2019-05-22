@@ -4,7 +4,9 @@ package com.exposit.carsharing.repository;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+        import java.util.UUID;
+
+public interface UserRepository extends JpaRepository<User, UUID> {
     @Autowired
     User findByUsername(String username);
 }

@@ -15,9 +15,10 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Convert(converter = UuidConverter.class)
+    private UUID id;
 
     @Column(unique = true, nullable = false)
     private String username;

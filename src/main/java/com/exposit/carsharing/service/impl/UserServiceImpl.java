@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @AllArgsConstructor
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
         if (user.getPassword() == null || user.getPassword() == "" || user.getEmail() == null || user.getEmail() == ""|| user.getUsername() == null || user.getUsername() == "" ) {
             throw new CustomException("Password or Email or Username not entered", HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
+            log.info("IN UserServiceImpl  Registration {}", user.getUsername());
             user.setPassword(PasswordEncoder.encode(user.getPassword()));
             userRepository.save(ConverterUtil.convertToUser(user));
     }
@@ -67,18 +69,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User search(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        return user;
     }
 
     @Override
-    public User getUser(Long id) {
+    public User getUserByUUID(UUID id) {
         log.info("IN UserServiceImpl getById {}", id);
         return userRepository.getOne(id);
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(UUID id) {
         log.info("IN UserServiceImpl  delete {}", id);
         userRepository.deleteById(id);
     }

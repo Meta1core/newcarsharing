@@ -2,10 +2,12 @@ package com.exposit.carsharing.model.payload;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class AccessTokenPayload {
     public String accessToken;
-    public Long userId;
+    public UUID userId;
     public String username;
     public String email;
     public String avatar;

@@ -24,6 +24,8 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Entry points
         http.authorizeRequests()
                 .antMatchers("/user/login").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/user/registration").permitAll();
     }
 
     @Bean

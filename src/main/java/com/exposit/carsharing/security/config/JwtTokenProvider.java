@@ -1,5 +1,7 @@
 package com.exposit.carsharing.security.config;
 
+import com.exposit.carsharing.model.entity.User;
+import com.exposit.carsharing.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -16,12 +18,13 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
 
   @Autowired
-  private CarsharingUserDetails carsharingUserDetails;
+  private UserService userService;
 
   @Value("${security.jwt.token.secret-key:secret-key}")
   private String secretKey;
@@ -51,11 +54,23 @@ public class JwtTokenProvider {
   }
 
   public Authentication getAuthentication(String token) {
-    UserDetails userDetails = carsharingUserDetails.loadUserByUsername(getUsername(token));
+    User user = userService.getUserByUUID(getUUIDFromToken(token));
+    if (user != null) {
+      final UserDetails userDetails = CarsharingUserDetails.builder()
+              .id(user.getId())
+              .email(user.getEmail())
+              .roles(user.getRoles() != null ? user.getRoles()
+                      .stream()
+                      .map(Enum::name)
+                      .collect(Collectors.toList()) : null)
+              .build();
+
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+    return null;
   }
 
-    public String getUsername(String token) {
+    public String getUUIDFromToken(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 

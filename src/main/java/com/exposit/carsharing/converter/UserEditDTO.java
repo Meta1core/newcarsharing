@@ -2,9 +2,11 @@ package com.exposit.carsharing.converter;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class UserEditDTO {
-    private Long id;
+    private UUID id;
     private String username;
     private String email;
     private String avatar;

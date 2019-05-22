@@ -5,12 +5,11 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.UUID;
 
 @Data
 public class UserRegistrationPayload {
 
-    @Size(min = 4, max = 14, message
-            = "Username must be between 4 and 14 characters")
     private String username;
 
     @Email(message = "Email should be valid")

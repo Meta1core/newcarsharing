@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
@@ -51,12 +52,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<User> getUser(@PathVariable("id") Long userid) {
+    public ResponseEntity<User> getUser(@PathVariable("id") UUID userid) {
         if (userid == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        User user = this.userService.getUser(userid);
+        User user = this.userService.getUserByUUID(userid);
 
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -65,9 +66,9 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") Long id)
+    public ResponseEntity<User> deleteUser(@PathVariable("id") UUID id)
     {
-        User user = this.userService.getUser(id);
+        User user = this.userService.getUserByUUID(id);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
