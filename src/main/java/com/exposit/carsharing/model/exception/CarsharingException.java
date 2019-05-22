@@ -1,15 +1,15 @@
-package com.exposit.carsharing.security.config;
+package com.exposit.carsharing.model.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class CustomException extends RuntimeException {
+public class CarsharingException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 
   private final String message;
   private final HttpStatus httpStatus;
 
-  public CustomException(String message, HttpStatus httpStatus) {
+  public CarsharingException(String message, HttpStatus httpStatus) {
     this.message = message;
     this.httpStatus = httpStatus;
   }

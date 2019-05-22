@@ -7,8 +7,8 @@ import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 import com.exposit.carsharing.repository.UserRepository;
 import com.exposit.carsharing.model.entity.User;
-import com.exposit.carsharing.security.config.CustomException;
-import com.exposit.carsharing.security.config.JwtTokenProvider;
+import com.exposit.carsharing.model.exception.CarsharingException;
+import com.exposit.carsharing.security.jwt.JwtTokenProvider;
 
 import com.exposit.carsharing.service.UserService;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(UserRegistrationPayload user) {
         if (user.getPassword() == null || user.getPassword() == "" || user.getEmail() == null || user.getEmail() == ""|| user.getUsername() == null || user.getUsername() == "" ) {
-            throw new CustomException("Password or Email or Username not entered", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CarsharingException("Password or Email or Username not entered", HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
             log.info("IN UserServiceImpl  Registration {}", user.getUsername());
             user.setPassword(PasswordEncoder.encode(user.getPassword()));
@@ -55,16 +55,12 @@ public class UserServiceImpl implements UserService {
     public AccessTokenPayload signin(String username, String password) {
         User user = userRepository.findByUsername(username);
         AccessTokenPayload tokenpayload = new AccessTokenPayload();
-        tokenpayload.setUserId(user.getId());
-        tokenpayload.setEmail(user.getEmail());
-        tokenpayload.setUsername(user.getUsername());
-        tokenpayload.setAvatar(user.getAvatar());
         if (user != null && PasswordEncoder.matches(password, user.getPassword())) {
             tokenpayload.accessToken = jwtTokenProvider.createToken(user.getId().toString());
             log.info("IN UserServiceImpl LOGIN {}", user.getId());
             return tokenpayload;
         } else {
-            throw new CustomException("Password or username invalid", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CarsharingException("Password or username invalid", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -72,7 +68,7 @@ public class UserServiceImpl implements UserService {
     public User search(String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
+            throw new CarsharingException("The user doesn't exist", HttpStatus.NOT_FOUND);
         }
         return user;
     }

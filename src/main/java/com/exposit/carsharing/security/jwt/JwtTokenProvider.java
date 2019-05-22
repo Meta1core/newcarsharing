@@ -1,11 +1,14 @@
-package com.exposit.carsharing.security.config;
+package com.exposit.carsharing.security.jwt;
 
 import com.exposit.carsharing.model.entity.User;
+import com.exposit.carsharing.model.exception.CarsharingException;
+import com.exposit.carsharing.security.security.CarsharingUserDetails;
 import com.exposit.carsharing.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,8 +21,10 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class JwtTokenProvider {
 
@@ -54,25 +59,36 @@ public class JwtTokenProvider {
   }
 
   public Authentication getAuthentication(String token) {
-    User user = userService.getUserByUUID(getUUIDFromToken(token));
-    if (user != null) {
-      final UserDetails userDetails = CarsharingUserDetails.builder()
-              .id(user.getId())
-              .email(user.getEmail())
-              .roles(user.getRoles() != null ? user.getRoles()
-                      .stream()
-                      .map(Enum::name)
-                      .collect(Collectors.toList()) : null)
-              .build();
+    try {
+      User user = userService.getUserByUUID(getUUIDFromToken(token));
+      if (user != null) {
+        final UserDetails userDetails = CarsharingUserDetails.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .roles(user.getRoles() != null ? user.getRoles()
+                        .stream()
+                        .map(Enum::name)
+                        .collect(Collectors.toList()) : null)
+                .build();
 
-    return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+      }
     }
+      catch (final CarsharingException e) {
+      log.error("Impossible to get user info with supplied token {}: http code={}, message={}",
+               e.getMessage(), e);
+      throw e;
+    } catch (final Exception e) {
+      log.error(e.getMessage(), e);
+      throw e;
+    }
+
     return null;
   }
 
-    public String getUUIDFromToken(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-    }
+    public UUID getUUIDFromToken(String token) {
+    return UUID.fromString(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
+  }
 
   public String resolveToken(HttpServletRequest req) {
     String bearerToken = req.getHeader("Authorization");
@@ -87,7 +103,7 @@ public class JwtTokenProvider {
       Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
       return true;
     } catch (JwtException | IllegalArgumentException e) {
-      throw new CustomException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new CarsharingException("Expired or invalid JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
