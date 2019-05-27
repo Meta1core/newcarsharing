@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ public class GearBoxController {
     @Autowired
     private GearBoxService gearBoxService;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GearBox> saveMark(@RequestBody @Valid GearBox gearBox) {
         if (gearBox == null) {
@@ -29,6 +31,7 @@ public class GearBoxController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GearBox> updateCustomer(@RequestBody @Valid GearBox gearBox) {
 
@@ -39,6 +42,7 @@ public class GearBoxController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<GearBox> deleteCar(@PathVariable("id") Integer id) {
         GearBox gearBox = this.gearBoxService.getById(id);
@@ -50,6 +54,7 @@ public class GearBoxController {
     }
 
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("")
     public ResponseEntity<List<GearBox>> getAllCars() {
         List<GearBox> marks = this.gearBoxService.getAll();

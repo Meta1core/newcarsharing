@@ -86,6 +86,7 @@ public class JwtTokenProvider {
     }
 
     public UUID getUUIDFromToken(String token) {
+        System.out.println(UUID.fromString(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject()));
         return UUID.fromString(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
     }
 

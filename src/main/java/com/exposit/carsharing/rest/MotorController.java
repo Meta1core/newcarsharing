@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ public class MotorController {
     @Autowired
     private MotorControllerService motorService;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MotorController> saveMark(@RequestBody @Valid com.exposit.carsharing.model.entity.MotorController motor) {
         if (motor == null) {
@@ -28,6 +30,7 @@ public class MotorController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MotorController> updateCustomer(@RequestBody @Valid com.exposit.carsharing.model.entity.MotorController motor) {
 
@@ -38,6 +41,7 @@ public class MotorController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<com.exposit.carsharing.model.entity.MotorController> deleteCar(@PathVariable("id") Integer id) {
         com.exposit.carsharing.model.entity.MotorController motorController = this.motorService.getById(id);
@@ -49,6 +53,7 @@ public class MotorController {
     }
 
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("")
     public ResponseEntity<List<com.exposit.carsharing.model.entity.MotorController>> getAllCars() {
         List<com.exposit.carsharing.model.entity.MotorController> models = this.motorService.getAll();

@@ -2,13 +2,14 @@ package com.exposit.carsharing.service.impl;
 
 
 import com.exposit.carsharing.converter.ConverterUtil;
-import com.exposit.carsharing.model.payload.UserEditDTO;
 import com.exposit.carsharing.model.entity.Role;
 import com.exposit.carsharing.model.entity.RoleName;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.exception.CarsharingException;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
+import com.exposit.carsharing.model.payload.UserEditDTO;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
+import com.exposit.carsharing.model.payload.UuidFromTokenPayload;
 import com.exposit.carsharing.repository.RoleRepository;
 import com.exposit.carsharing.repository.UserRepository;
 import com.exposit.carsharing.security.jwt.JwtTokenProvider;
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+
     @Override
     public void update(UserEditDTO user) {
         User b = new User();
@@ -81,6 +83,13 @@ public class UserServiceImpl implements UserService {
             throw new CarsharingException("The user doesn't exist", HttpStatus.NOT_FOUND);
         }
         return user;
+    }
+
+    @Override
+    public User GetUserFromToken(String token) {
+        log.info("IN UserServiceImpl  GetUUIDFromToken {}");
+        UUID tokenfromid = jwtTokenProvider.getUUIDFromToken(token);
+        return userRepository.findById(tokenfromid).orElse(null);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.exposit.carsharing.rest;
 
 
-import com.exposit.carsharing.model.payload.UserEditDTO;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
+import com.exposit.carsharing.model.payload.UserEditDTO;
 import com.exposit.carsharing.model.payload.UserLoginPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
 import com.exposit.carsharing.service.UserService;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,8 +52,16 @@ public class UserController {
         return userService.signin(userLoginPayload.getUsername(), userLoginPayload.getPassword());
     }
 
+    @PostMapping(value = "/getfromtoken")
+    public ResponseEntity<User> getUserFromToken(@RequestBody String token) {
+        if (token == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity(this.userService.GetUserFromToken(token), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") UUID userid) {
+    public ResponseEntity<AccessTokenPayload> getUser(@PathVariable("id") UUID userid) {
         if (userid == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -63,9 +72,10 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable("id") UUID id) {
         User user = this.userService.getUserByUUID(id);
@@ -76,6 +86,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> updateCustomer(@RequestBody @Valid UserEditDTO user) {
 

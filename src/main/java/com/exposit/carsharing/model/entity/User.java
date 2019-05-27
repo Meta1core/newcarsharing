@@ -1,5 +1,6 @@
 package com.exposit.carsharing.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -32,4 +33,5 @@ public class User {
     private List<Role> roles;
 
     private String avatar;
+
 }

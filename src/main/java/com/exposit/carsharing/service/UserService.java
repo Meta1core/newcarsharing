@@ -4,6 +4,7 @@ import com.exposit.carsharing.model.payload.UserEditDTO;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
+import com.exposit.carsharing.model.payload.UuidFromTokenPayload;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +23,8 @@ public interface UserService {
     void update(UserEditDTO user);
 
     void deleteUser(UUID id);
+
+    User GetUserFromToken(String token);
 
     List<User> getAll();
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ public class EngineController {
     private EngineService engineService;
 
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Engine> saveMark(@RequestBody @Valid Engine engine) {
         if (engine == null) {
@@ -30,6 +32,7 @@ public class EngineController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Engine> updateCustomer(@RequestBody @Valid Engine engine) {
 
@@ -40,6 +43,7 @@ public class EngineController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Engine> deleteCar(@PathVariable("id") Integer id) {
         Engine engine = this.engineService.getById(id);
@@ -51,6 +55,7 @@ public class EngineController {
     }
 
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("")
     public ResponseEntity<List<Engine>> getAllCars() {
         List<Engine> marks = this.engineService.getAll();

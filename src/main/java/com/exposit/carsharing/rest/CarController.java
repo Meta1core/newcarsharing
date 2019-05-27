@@ -22,6 +22,7 @@ public class CarController {
 
     private CarService carservice;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Car> getCustomer(@PathVariable("id") Integer customerId) {
         if (customerId == null) {
@@ -36,6 +37,7 @@ public class CarController {
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDTO> saveCar(@RequestBody @Valid CarDTO car) {
         if (car == null) {
@@ -45,6 +47,7 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Car> updateCustomer(@RequestBody @Valid CarDTO car) {
 
@@ -55,6 +58,7 @@ public class CarController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Car> deleteCar(@PathVariable("id") Integer id) {
         Car car = carservice.getById(id);

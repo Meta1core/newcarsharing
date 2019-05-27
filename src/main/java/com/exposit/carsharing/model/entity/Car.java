@@ -103,4 +103,6 @@ public class Car {
 
     @Column(name = "giphy")
     private String giphy;
+
+
 }
