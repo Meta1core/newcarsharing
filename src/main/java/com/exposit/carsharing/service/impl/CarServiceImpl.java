@@ -1,34 +1,32 @@
 package com.exposit.carsharing.service.impl;
 
+import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.CarDTO;
 import com.exposit.carsharing.model.entity.Car;
 import com.exposit.carsharing.repository.*;
 import com.exposit.carsharing.service.CarService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class CarServiceImpl implements CarService {
-    @Autowired
     CarRepository carrepository;
-    @Autowired
     MarkRepository markRepository;
-    @Autowired
     ModelRepository modelRepository;
-    @Autowired
     EngineRepository engineRepository;
-    @Autowired
     CarCaseRepository carCaseRepository;
-    @Autowired
     GearBoxRepository gearBoxRepository;
-    @Autowired
     FuelRepository fuelRepository;
-    @Autowired
     MotorControllerRepository motorControllerRepository;
 
     @Override
@@ -97,6 +95,13 @@ public class CarServiceImpl implements CarService {
         log.info("IN CarServiceImpl  delete {}", id);
         carrepository.deleteById(id);
     }
+
+    @Override
+    public List<Car> findAllByUser(User user) {
+        log.info("IN CarServiceImpl  findAllByUser");
+        return carrepository.findAllByUser(user);
+    }
+
 
     @Secured("ROLE_ADMIN")
     @Override

@@ -3,9 +3,14 @@ package com.exposit.carsharing.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.hibernate.annotations.FetchMode.SELECT;
 
 @Entity
 @Table(name = "car")
@@ -104,5 +109,8 @@ public class Car {
     @Column(name = "giphy")
     private String giphy;
 
+    @Fetch(value = SELECT)
+    @ManyToMany(mappedBy="cars")
+    private Set<User> user = new HashSet();
 
 }

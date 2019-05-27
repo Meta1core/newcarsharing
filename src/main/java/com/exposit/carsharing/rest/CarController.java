@@ -1,9 +1,12 @@
 package com.exposit.carsharing.rest;
 
 
-import com.exposit.carsharing.model.payload.CarDTO;
+import com.exposit.carsharing.converter.AccessCheckUtil;
 import com.exposit.carsharing.model.entity.Car;
+import com.exposit.carsharing.model.entity.User;
+import com.exposit.carsharing.model.payload.CarDTO;
 import com.exposit.carsharing.service.CarService;
+import com.exposit.carsharing.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -21,10 +25,19 @@ import java.util.List;
 public class CarController {
 
     private CarService carservice;
+    private UserService userservice;
+
+    @GetMapping(value = "user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Car> getCarsByUser(@PathVariable("id") UUID userid) throws Exception {
+        AccessCheckUtil.checkAccess(userid.toString());
+        User user = userservice.getUserByUUID(userid);
+        carservice.findAllByUser(user);
+        return new ResponseEntity(carservice.findAllByUser(user), HttpStatus.OK);
+    }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Car> getCustomer(@PathVariable("id") Integer customerId) {
+    public ResponseEntity<Car> getCar(@PathVariable("id") Integer customerId) {
         if (customerId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -68,7 +81,6 @@ public class CarController {
         carservice.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping

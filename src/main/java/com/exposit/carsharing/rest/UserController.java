@@ -1,14 +1,17 @@
 package com.exposit.carsharing.rest;
 
 
+import com.exposit.carsharing.converter.AccessCheckUtil;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserEditDTO;
 import com.exposit.carsharing.model.payload.UserLoginPayload;
 import com.exposit.carsharing.model.payload.UserRegistrationPayload;
+import com.exposit.carsharing.security.jwt.JwtTokenProvider;
 import com.exposit.carsharing.service.UserService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +26,12 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserController  {
 
-    @Autowired
     private UserService userService;
+    private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/registration")
     public ResponseEntity<User> registration(@RequestBody UserRegistrationPayload userRegistrationPayload) {
@@ -61,7 +65,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AccessTokenPayload> getUser(@PathVariable("id") UUID userid) {
+    public ResponseEntity<User> getUser(@PathVariable("id") UUID userid) throws Exception {
+        //AccessCheckUtil.checkAccess(userid.toString());
         if (userid == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
