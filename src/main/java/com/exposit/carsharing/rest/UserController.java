@@ -1,7 +1,6 @@
 package com.exposit.carsharing.rest;
 
 
-import com.exposit.carsharing.converter.AccessCheckUtil;
 import com.exposit.carsharing.model.entity.User;
 import com.exposit.carsharing.model.payload.AccessTokenPayload;
 import com.exposit.carsharing.model.payload.UserEditDTO;
@@ -13,7 +12,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +26,7 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/user")
-public class UserController  {
+public class UserController {
 
     private UserService userService;
     private JwtTokenProvider jwtTokenProvider;
@@ -56,17 +54,9 @@ public class UserController  {
         return userService.signin(userLoginPayload.getUsername(), userLoginPayload.getPassword());
     }
 
-    @PostMapping(value = "/getfromtoken")
-    public ResponseEntity<User> getUserFromToken(@RequestBody String token) {
-        if (token == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity(this.userService.GetUserFromToken(token), HttpStatus.OK);
-    }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") UUID userid) throws Exception {
-        //AccessCheckUtil.checkAccess(userid.toString());
+    public ResponseEntity<User> getUser(@PathVariable("id") UUID userid) {
         if (userid == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -91,9 +81,8 @@ public class UserController  {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> updateCustomer(@RequestBody @Valid UserEditDTO user) {
+    @PatchMapping()
+    public ResponseEntity<User> updateUser(@RequestBody UserEditDTO user) {
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -109,5 +98,15 @@ public class UserController  {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(users);
+    }
+
+    @PostMapping(value = "/getfromtoken")
+    public ResponseEntity<User> getUserFromToken(@RequestBody String token) {
+        if (jwtTokenProvider.validateToken(token)) {
+            if (token == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(this.userService.GetUserFromToken(token), HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -1,20 +1,18 @@
 package com.exposit.carsharing.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.hibernate.annotations.FetchMode.SELECT;
+
 @Data
 @Entity
 @Table(name = "users")
@@ -41,10 +39,25 @@ public class User {
     @JsonBackReference
     @Fetch(value = SELECT)
     @ManyToMany(cascade = {CascadeType.PERSIST})
-    @JoinTable(name="users_cars", joinColumns= {@JoinColumn(name="user_id")},  inverseJoinColumns= {@JoinColumn(name="car_id")})
+    @JoinTable(name = "users_cars", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "car_id", unique = true)})
     private List<Car> cars;
 
 
     private String avatar;
+
+    private String sprav;
+    private String nprav;
+    @Temporal(TemporalType.DATE)
+    private Date dateprav;
+    @Temporal(TemporalType.DATE)
+    private Date srokprav;
+    private String kategprav;
+    private String mobilenumber;
+    private String idennomer;
+
+    private String SPassport;
+    private String NPassport;
+    private String KPassport;
+
 
 }

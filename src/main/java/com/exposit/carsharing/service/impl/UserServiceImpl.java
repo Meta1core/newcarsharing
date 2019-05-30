@@ -60,6 +60,17 @@ public class UserServiceImpl implements UserService {
         b.setEmail(user.getEmail());
         b.setAvatar(user.getAvatar());
         b.setPassword(user.getPassword());
+        b.setIdennomer(user.getIdennomer());
+        b.setDateprav(user.getDateprav());
+        b.setSrokprav(user.getSrokprav());
+        b.setMobilenumber(user.getMobileNumber());
+        b.setNprav(user.getNprav());
+        b.setSprav(user.getSprav());
+        b.setKategprav(user.getKategprav());
+        b.setSPassport(user.getSPassport());
+        b.setKPassport(user.getKPassport());
+        b.setNPassport(user.getNPassport());
+        b.setRoles(user.getRoles() != null ? getPersistedRoles(user.getRoles()) : null);
         userRepository.save(b);
         log.info("IN UserServiceImpl  update {}", user.getId());
     }

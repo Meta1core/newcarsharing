@@ -29,9 +29,7 @@ public class CarController {
 
     @GetMapping(value = "user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Car> getCarsByUser(@PathVariable("id") UUID userid) throws Exception {
-        AccessCheckUtil.checkAccess(userid.toString());
         User user = userservice.getUserByUUID(userid);
-        carservice.findAllByUser(user);
         return new ResponseEntity(carservice.findAllByUser(user), HttpStatus.OK);
     }
 
@@ -85,6 +83,12 @@ public class CarController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<Car>> getAllCars() {
+        return ResponseEntity.ok(carservice.getAll());
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping(value = "/forrent")
+    public ResponseEntity<List<Car>> getAllCarsForRent() {
         return ResponseEntity.ok(carservice.getAll());
     }
 }

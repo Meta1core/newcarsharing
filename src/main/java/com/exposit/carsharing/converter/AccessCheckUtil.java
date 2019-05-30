@@ -14,8 +14,11 @@ public class AccessCheckUtil {
 
             String uuid = ((CarsharingUserDetails) principal).getId().toString();
 
-            if (!urlUuid.equals(uuid))
-                throw new Exception("Not enough permission");
+            if (!urlUuid.equals(uuid)) {
+                System.out.println("Айди из токена " + uuid);
+                System.out.println("Айди из запроса " + urlUuid);
+                throw new Exception("Not enough permission for user {}");
+            }
             else log.info("Access for user {} allowed",uuid);
         }
         else  throw new Exception("Not enough permission");
